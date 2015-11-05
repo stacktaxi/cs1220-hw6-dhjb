@@ -4,8 +4,6 @@
 Vector::Vector() {
 	in_a = new IO();
 	in_b = new IO();
-	in_a->addOut(out_a);
-	in_b->addOut(out_a);
 }
 
 void Vector::tick() {

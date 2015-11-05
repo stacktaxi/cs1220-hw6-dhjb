@@ -5,4 +5,6 @@
 class And : public Gate {
 	Gate *in_a;
 	Gate *in_b;
+public:
+	virtual void tick();
 };

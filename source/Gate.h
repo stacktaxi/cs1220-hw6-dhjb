@@ -7,10 +7,11 @@ class Vector;
 Vector *vector;
 
 enum TriState {
-	X = 2;
+	X = 2
 };
 
 class Gate {
+protected:
 	unsigned delay;
 	unsigned current_time;
 	TriState value;
@@ -18,14 +19,9 @@ class Gate {
 	std::vector<Gate *> out;
 public:
 	virtual void tick();
+	void tickOutputs();
 
 	void addOut(Gate *);
 
 	unsigned getCurrentTime();
 };
-
-void tickOutputs(std::vector<Gate *> out) {
-	for(Gate *gate : out) {
-		out->tick();
-	}
-}
