@@ -17,8 +17,11 @@ class Gate {
 
 	std::vector<Gate *> out;
 public:
-	virtual void tick() = 0;
+	virtual void tick();
+
 	void addOut(Gate *);
+
+	unsigned getCurrentTime();
 };
 
 void tickOutputs(std::vector<Gate *> out) {

@@ -10,3 +10,7 @@ void Gate::tick() {
 		return;
 	}
 }
+
+unsigned Gate::getCurrentTime() {
+	return current_time;
+}
