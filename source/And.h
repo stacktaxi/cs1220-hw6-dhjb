@@ -4,5 +4,6 @@
 
 class And : public Gate {
 public:
+	And(Gate *, Gate *);
 	virtual TriState recompute();
 };

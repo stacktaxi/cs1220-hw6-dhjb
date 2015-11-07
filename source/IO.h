@@ -3,6 +3,7 @@
 #pragma once
 
 #include <string>
+#include <iostream>
 
 #include "Gate.h"
 
@@ -10,7 +11,7 @@ class IO : public Gate {
 	std::string name;
 	Gate *in;
 public:
-	IO(std::string);
+	IO(std::string, Gate * = nullptr);
 
 	virtual TriState recompute();
 };

@@ -7,8 +7,8 @@ class Vector;
 
 Vector *vector;
 
-typedef char TriState;
-const char X = 2;
+typedef unsigned TriState;
+const TriState X = 2;
 
 struct ValueAtTime {
 	unsigned time;
@@ -18,7 +18,8 @@ struct ValueAtTime {
 class Gate {
 protected:
 	unsigned delay = 0;
-	unsigned current_time = 0;
+	// UINT_MAX is a reserved value meaning we have yet to tick the first time.
+	unsigned current_time = UINT_MAX;
 
 	std::queue<ValueAtTime> future_values;
 	TriState value = 0;

@@ -1,5 +1,11 @@
 #include "And.h"
 
+And::And(Gate *_in_a, Gate *_in_b) {
+	in_a = _in_a;
+	in_b = _in_b;
+	delay = 1;
+}
+
 TriState And::recompute() {
 	if(in_a->getValue() == 0 || in_b->getValue() == 0) {
 		return 0;

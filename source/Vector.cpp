@@ -1,9 +1,15 @@
 #include "Vector.h"
 #include "IO.h"
+#include "And.h"
 
 Vector::Vector() {
 	in_a = new IO("A");
 	in_b = new IO("B");
+	a = new And(in_a, in_b);
+	out = new IO("C", a);
+	a->addOut(out);
+	in_a->addOut(a);
+	in_b->addOut(a);
 }
 
 void Vector::clock() {
