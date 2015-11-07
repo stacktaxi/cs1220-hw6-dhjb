@@ -10,5 +10,7 @@ class IO : public Gate {
 	std::string name;
 	Gate *in;
 public:
-	virtual void tick();
+	IO(std::string);
+
+	virtual TriState recompute();
 };

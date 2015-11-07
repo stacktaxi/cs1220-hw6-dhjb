@@ -1,10 +1,13 @@
 #include "And.h"
 
-void And::tick() {
-	Gate::tick();
-	if(in_a->getCurrentTime() < vector->getCurrentTime() || in_b->getCurrentTime() < vector->getCurrentTime()) {
-		// One of the inputs has not ticked this clock cycle. We can not reevaluate our current state unless all inputs are up to date with the current tick.
+TriState And::recompute() {
+	if(in_a->getValue() == 0 || in_b->getValue() == 0) {
+		return 0;
 	}
-
-	tickOutputs();
+	else if(in_a->getValue() == X || in_b->getValue() == X) {
+		return X;
+	}
+	else { // Both inputs are one.
+		return 1;
+	}
 }

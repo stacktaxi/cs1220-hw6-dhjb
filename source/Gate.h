@@ -1,27 +1,39 @@
 #pragma once
 
 #include <vector>
+#include <queue>
 
 class Vector;
 
 Vector *vector;
 
-enum TriState {
-	X = 2
+typedef char TriState;
+const char X = 2;
+
+struct ValueAtTime {
+	unsigned time;
+	TriState value;
 };
 
 class Gate {
 protected:
-	unsigned delay;
-	unsigned current_time;
-	TriState value;
+	unsigned delay = 0;
+	unsigned current_time = 0;
 
+	std::queue<ValueAtTime> future_values;
+	TriState value = 0;
+
+	Gate *in_a;
+	Gate *in_b;
 	std::vector<Gate *> out;
 public:
-	virtual void tick();
+	void tick();
+	virtual TriState recompute() = 0;
+
 	void tickOutputs();
 
 	void addOut(Gate *);
 
 	unsigned getCurrentTime();
+	TriState getValue();
 };

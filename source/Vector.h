@@ -7,8 +7,11 @@ class Vector {
 	IO *in_a;
 	IO *in_b;
 
+	bool continue_running;
+
 public:
 	Vector();
-	void tick();
+	void clock();
 	unsigned getCurrentTime();
+	void continueRunning();
 };
