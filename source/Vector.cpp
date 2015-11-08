@@ -1,13 +1,17 @@
 #include "Vector.h"
 #include "IO.h"
 #include "And.h"
+#include "Not.h"
 
 Vector::Vector() {
+	// @TESTING
 	in_a = new IO("A");
 	in_b = new IO("B");
 	a = new And(in_a, in_b);
-	out = new IO("C", a);
-	a->addOut(out);
+	n = new Not(a);
+	out = new IO("C", n);
+	a->addOut(n);
+	n->addOut(out);
 	in_a->addOut(a);
 	in_b->addOut(a);
 }

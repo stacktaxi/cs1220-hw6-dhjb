@@ -3,6 +3,7 @@
 And::And(Gate *_in_a, Gate *_in_b) {
 	in_a = _in_a;
 	in_b = _in_b;
+	// @TESTING
 	delay = 1;
 }
 

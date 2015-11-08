@@ -2,15 +2,19 @@
 
 class IO;
 class And;
+class Not;
 
 class Vector {
 	unsigned current_time;
+
+	// @TESTING
 	IO *in_a;
 	IO *in_b;
 	And *a;
+	Not *n;
 	IO *out;
 
-	bool continue_running;
+	bool continue_running = true;
 
 public:
 	Vector();
