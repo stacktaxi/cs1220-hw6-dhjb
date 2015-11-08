@@ -9,9 +9,12 @@
 
 class IO : public Gate {
 	std::string name;
+	std::string out_dump;
 	Gate *in;
 public:
 	IO(std::string, Gate * = nullptr);
 
 	virtual TriState recompute();
+
+	void dump();
 };

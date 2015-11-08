@@ -15,6 +15,7 @@ class Vector {
 public:
 	Vector();
 	void clock();
+	void printTimeline();
 	unsigned getCurrentTime();
 	void continueRunning();
 };

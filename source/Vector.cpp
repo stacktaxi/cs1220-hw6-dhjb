@@ -21,6 +21,25 @@ void Vector::clock() {
 
 		++current_time;
 	}
+
+	in_a->dump();
+	printTimeline();
+	in_b->dump();
+	printTimeline();
+	out->dump();
+	printTimeline();
+}
+
+void Vector::printTimeline() {
+	for(int i = 0; i < current_time; ++i) {
+		if(i % 5 == 0) {
+			std::cout << i;
+		}
+		else {
+			std::cout << " ";
+		}
+	}
+	std::cout << "\n";
 }
 
 unsigned Vector::getCurrentTime() {
