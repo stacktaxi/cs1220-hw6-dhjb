@@ -1,8 +1,7 @@
 #include "IO.h"
 
-IO::IO(std::string _name, Gate *_in) {
+IO::IO(Vector *v, unsigned _delay, std::string _name) : Gate(v, _delay) {
 	name = _name;
-	in[0] = _in;
 
 	// @TESTING
 	if(name == "A") {

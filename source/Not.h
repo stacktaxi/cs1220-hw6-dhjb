@@ -4,6 +4,7 @@
 
 class Not : public Gate {
 public:
-	Not(Gate * = nullptr);
+	using Gate::Gate;
+
 	virtual TriState recompute();
 };

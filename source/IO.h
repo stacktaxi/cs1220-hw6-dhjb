@@ -11,7 +11,7 @@ class IO : public Gate {
 	std::string name;
 	std::string out_dump;
 public:
-	IO(std::string, Gate * = nullptr);
+	IO(Vector *, unsigned, std::string);
 
 	virtual TriState recompute();
 

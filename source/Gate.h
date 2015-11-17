@@ -26,17 +26,23 @@ protected:
 
 	Gate *in[2];
 	std::vector<Gate *> out;
+
+	Vector *my_vector;
+
+	unsigned next_input = 0;
 public:
+	Gate(Vector *, unsigned);
+
 	void tick();
 	virtual TriState recompute() = 0;
 
 	void tickOutputs();
 
-	void addOut(Gate *);
+	void setOutputs(std::vector<Gate *>);
 
 	unsigned getCurrentTime();
 	TriState getValue();
 
 	// Function for parsing purposes.
-	void setInput(unsigned, Gate *);
+	void setInput(Gate *);
 };

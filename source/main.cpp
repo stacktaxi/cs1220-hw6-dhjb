@@ -5,6 +5,6 @@
 #include "Not.cpp"
 
 int main() {
-	vector = new Vector();
-	vector->clock();
+	Vector vector = Vector("", "");
+	vector.clock();
 }

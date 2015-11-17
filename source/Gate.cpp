@@ -1,5 +1,10 @@
 #include "Gate.h"
 
+Gate::Gate(Vector *v, unsigned _delay) {
+	my_vector = v;
+	delay = _delay;
+}
+
 void Gate::tick() {
 	if(current_time == vector->getCurrentTime()) {
 		// We have already ticked this clock cycle. This means we do not need to update yet.
@@ -46,8 +51,8 @@ void Gate::tickOutputs() {
 	}
 }
 
-void Gate::addOut(Gate *gate) {
-	out.push_back(gate);
+void Gate::setOutputs(std::vector<Gate *> _out) {
+	out = _out;
 }
 
 unsigned Gate::getCurrentTime() {
@@ -58,6 +63,6 @@ TriState Gate::getValue() {
 	return value;
 }
 
-void Gate::setInput(unsigned i, Gate *_in) {
-	in[i] = _in;
+void Gate::setInput(Gate *_in) {
+	in[next_input++] = _in;
 }

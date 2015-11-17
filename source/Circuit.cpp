@@ -1,6 +1,9 @@
-#include "Circuit.h"
+//#include "Circuit.h"
+#include <fstream>
 
-Circuit::Circuit() {
+#include "Gate.h"
+
+/*Circuit::Circuit() {
 }
 
 Circuit::~Circuit() {
@@ -25,22 +28,24 @@ void tokenizeStr(std::string s, std::vector<std::string> &tokens, char delim) {
     // Keep splitting off parts of string until delim is no longer found.
     while(pos != std::string::npos) {
         tokens.push_back(substring.substr(0, pos));
-        substring = substring.substr(pos + 1); 
+        substring = substring.substr(pos + 1);
         pos = substring.find_first_of(delim);
     }
 
     tokens.push_back(substring);
-} 
+}
 
+// This does not need to be a class. The parsing system is one pass, one function call. We do not need to store any data outside of that.
+#if 0
 void Circuit::loadFile(std::string filepath) {
-    std::ifstream infile(filepath.c_str(), std::ifstream::in); 
+    std::ifstream infile(filepath.c_str(), std::ifstream::in);
     std::string line;
     std::vector<std::string> tokens;
 
     while(!infile.eof()) {
         getline(infile, line);
-        tokenizeStr(line, tokens, ' ');  
-               
+        tokenizeStr(line, tokens, ' ');
+
         /*
          * @CONSIDER -- could we keep the wire definitions within this function?
          * The wire number is a part of the specification for the circuit file
@@ -52,7 +57,7 @@ void Circuit::loadFile(std::string filepath) {
             header = tokens[1];
         }
         else if(tokens[0] == "INPUT") {
-        } 
+        }
         else if(tokens[0] == "OUTPUT") {
             // ...
         }
@@ -73,9 +78,10 @@ void Circuit::loadFile(std::string filepath) {
             }
             else if(tokens[1] == "XNOR") {
             }
-        } 
+        }
     }
-    
+
     infile.close();
- 
+
 }
+#endif

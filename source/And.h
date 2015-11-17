@@ -4,6 +4,7 @@
 
 class And : public Gate {
 public:
-	And(Gate * = nullptr, Gate * = nullptr);
+	using Gate::Gate;
+
 	virtual TriState recompute();
 };

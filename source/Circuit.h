@@ -1,4 +1,4 @@
-#pragma once
+/*#pragma once
 
 #include <fstream>
 #include <string>
@@ -10,7 +10,7 @@
 class Circuit {
     private:
         // Probably replace these with maps, too tired to do it now
-        std::vector<IO*> ins; 
+        std::vector<IO*> ins;
         std::vector<IO*> outs;
         std::vector<Gate*> gates;
 
@@ -22,3 +22,4 @@ class Circuit {
 
         void loadFile(std::string filepath);
 };
+*/

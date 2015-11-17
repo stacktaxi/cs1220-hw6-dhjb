@@ -3,35 +3,122 @@
 #include "And.h"
 #include "Not.h"
 
-Vector::Vector() {
-	// @TESTING
-	in[0] = new IO("A");
-	in[1] = new IO("B");
-	a = new And(in[0], in[1]);
-	n = new Not(a);
-	out = new IO("C", n);
-	a->addOut(n);
-	n->addOut(out);
-	in[0]->addOut(a);
-	in[1]->addOut(a);
+void tokenizeStr(std::string s, std::vector<std::string> &tokens, char delim) {
+    tokens.clear();
+    std::string substring = s;
+    size_t pos = substring.find_first_of(delim);
+
+    // Keep splitting off parts of string until delim is no longer found.
+    while(pos != std::string::npos) {
+        tokens.push_back(substring.substr(0, pos));
+        substring = substring.substr(pos + 1);
+        pos = substring.find_first_of(delim);
+    }
+
+    tokens.push_back(substring);
+}
+
+Vector::Vector(std::string circuit_path, std::string vector_path) {
+    std::ifstream infile(circuit_path.c_str(), std::ifstream::in);
+    std::string line;
+    std::vector<std::string> tokens;
+
+    std::map<unsigned, Wire> wires;
+
+    while(!infile.eof()) {
+        getline(infile, line);
+        tokenizeStr(line, tokens, ' ');
+
+        if(tokens[0] == "CIRCUIT") {
+            name = tokens[1];
+        }
+        else if(tokens[0] == "INPUT") {
+            IO *input = new IO(this, 0, tokens[1]);
+            wires[std::stoi(tokens[2])].in = input;
+            inputs.push_back(input);
+        }
+        else if(tokens[0] == "OUTPUT") {
+            IO *output = new IO(this, 0, tokens[1]);
+            wires[std::stoi(tokens[2])].outs.push_back(output);
+            outputs.push_back(output);
+        }
+        else if(tokens[0] == "NOT" || tokens[0] == "INVERTER") {
+        	Not *gate = new Not(this, std::stoi(tokens[1]));
+            wires[std::stoi(tokens[2])].outs.push_back(gate);
+            wires[std::stoi(tokens[3])].in = gate;
+        }
+        else if(tokens[1] == "AND") {
+        	And *gate = new And(this, std::stoi(tokens[1]));
+            wires[std::stoi(tokens[2])].outs.push_back(gate);
+            wires[std::stoi(tokens[3])].outs.push_back(gate);
+            wires[std::stoi(tokens[4])].in = gate;
+        }
+        else if(tokens[1] == "OR") {
+        	/*Or *gate = new Or(this, std::stoi(tokens[1]));
+            wires[std::stoi(tokens[2])].outs.push_back(gate);
+            wires[std::stoi(tokens[3])].outs.push_back(gate);
+            wires[std::stoi(tokens[4])].in = gate;*/
+        }
+        else if(tokens[1] == "XOR") {
+        	/*Xor *gate = new Or(this, std::stoi(tokens[1]));
+            wires[std::stoi(tokens[2])].outs.push_back(gate);
+            wires[std::stoi(tokens[3])].outs.push_back(gate);
+            wires[std::stoi(tokens[4])].in = gate;*/
+
+        }
+        else if(tokens[1] == "NAND") {
+        	/*Nand *gate = new Nand(this, std::stoi(tokens[1]));
+            wires[std::stoi(tokens[2])].outs.push_back(gate);
+            wires[std::stoi(tokens[3])].outs.push_back(gate);
+            wires[std::stoi(tokens[4])].in = gate;*/
+
+        }
+        else if(tokens[1] == "NOR") {
+        	/*Nor *gate = new Nor(this, std::stoi(tokens[1]));
+            wires[std::stoi(tokens[2])].outs.push_back(gate);
+            wires[std::stoi(tokens[3])].outs.push_back(gate);
+            wires[std::stoi(tokens[4])].in = gate;*/
+
+        }
+        else if(tokens[1] == "XNOR") {
+        	/*Xnor *gate = new Xnor(this, std::stoi(tokens[1]));
+            wires[std::stoi(tokens[2])].outs.push_back(gate);
+            wires[std::stoi(tokens[3])].outs.push_back(gate);
+            wires[std::stoi(tokens[4])].in = gate;*/
+        }
+    }
+
+    infile.close();
+
+    for(auto const &entry : wires) {
+    	entry.second.in->setOutputs(entry.second.outs);
+
+    	for(Gate *out : entry.second.outs) {
+    		out->setInput(entry.second.in);
+    	}
+	}
 }
 
 void Vector::clock() {
 	while(continue_running) {
 		continue_running = false;
 
-		in[0]->tick();
-		in[1]->tick();
+		for(IO *in : inputs) {
+			in->tick();
+		}
 
 		++current_time;
 	}
 
-	in[0]->dump();
-	printTimeline();
-	in[1]->dump();
-	printTimeline();
-	out->dump();
-	printTimeline();
+	for(IO *in : inputs) {
+		in->dump();
+		printTimeline();
+	}
+
+	for(IO *out : outputs) {
+		out->dump();
+		printTimeline();
+	}
 }
 
 void Vector::printTimeline() {
