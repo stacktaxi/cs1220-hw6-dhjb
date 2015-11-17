@@ -4,6 +4,6 @@
 
 class Not : public Gate {
 public:
-	Not(Gate *);
+	Not(Gate * = nullptr);
 	virtual TriState recompute();
 };

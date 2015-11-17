@@ -6,7 +6,7 @@ void Gate::tick() {
 		return;
 	}
 
-	if((in_a && (in_a->getCurrentTime() < vector->getCurrentTime() || in_a->getCurrentTime() == UINT_MAX)) || (in_b && (in_b->getCurrentTime() < vector->getCurrentTime() || in_b->getCurrentTime() == UINT_MAX))) {
+	if((in[0] && (in[0]->getCurrentTime() < vector->getCurrentTime() || in[0]->getCurrentTime() == UINT_MAX)) || (in[1] && (in[1]->getCurrentTime() < vector->getCurrentTime() || in[1]->getCurrentTime() == UINT_MAX))) {
 		// One of the inputs has not ticked this clock cycle. We can not reevaluate our current state unless all inputs are up to date with the current tick.
 		return;
 	}
@@ -56,4 +56,8 @@ unsigned Gate::getCurrentTime() {
 
 TriState Gate::getValue() {
 	return value;
+}
+
+void Gate::setInput(unsigned i, Gate *_in) {
+	in[i] = _in;
 }

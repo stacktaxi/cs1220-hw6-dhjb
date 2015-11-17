@@ -1,14 +1,14 @@
 #include "Not.h"
 
-Not::Not(Gate *_in_a) {
-	in_a = _in_a;
+Not::Not(Gate *_in) {
+	in[0] = _in;
 }
 
 TriState Not::recompute() {
-	if(in_a->getValue() == X) {
+	if(in[0]->getValue() == X) {
 		return X;
 	}
 	else {
-		return !in_a->getValue();
+		return !in[0]->getValue();
 	}
 }

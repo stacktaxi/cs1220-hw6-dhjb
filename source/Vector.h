@@ -8,8 +8,7 @@ class Vector {
 	unsigned current_time;
 
 	// @TESTING
-	IO *in_a;
-	IO *in_b;
+	IO *in[2];
 	And *a;
 	Not *n;
 	IO *out;

@@ -24,8 +24,7 @@ protected:
 	std::queue<ValueAtTime> future_values;
 	TriState value = 0;
 
-	Gate *in_a;
-	Gate *in_b;
+	Gate *in[2];
 	std::vector<Gate *> out;
 public:
 	void tick();
@@ -37,4 +36,7 @@ public:
 
 	unsigned getCurrentTime();
 	TriState getValue();
+
+	// Function for parsing purposes.
+	void setInput(unsigned, Gate *);
 };

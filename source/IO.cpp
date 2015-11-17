@@ -1,8 +1,8 @@
 #include "IO.h"
 
-IO::IO(std::string _name, Gate *_in_a) {
+IO::IO(std::string _name, Gate *_in) {
 	name = _name;
-	in_a = _in_a;
+	in[0] = _in;
 
 	// @TESTING
 	if(name == "A") {
@@ -18,9 +18,9 @@ IO::IO(std::string _name, Gate *_in_a) {
 TriState IO::recompute() {
 	TriState v;
 
-	if(in_a) {
+	if(in[0]) {
 		// We are an output. This means that we get our value from an input.
-		v = in_a->getValue();
+		v = in[0]->getValue();
 	}
 	else {
 		// We are an input. This means that by the time we get here we will already have our value for this clock cycle.

@@ -5,30 +5,30 @@
 
 Vector::Vector() {
 	// @TESTING
-	in_a = new IO("A");
-	in_b = new IO("B");
-	a = new And(in_a, in_b);
+	in[0] = new IO("A");
+	in[1] = new IO("B");
+	a = new And(in[0], in[1]);
 	n = new Not(a);
 	out = new IO("C", n);
 	a->addOut(n);
 	n->addOut(out);
-	in_a->addOut(a);
-	in_b->addOut(a);
+	in[0]->addOut(a);
+	in[1]->addOut(a);
 }
 
 void Vector::clock() {
 	while(continue_running) {
 		continue_running = false;
 
-		in_a->tick();
-		in_b->tick();
+		in[0]->tick();
+		in[1]->tick();
 
 		++current_time;
 	}
 
-	in_a->dump();
+	in[0]->dump();
 	printTimeline();
-	in_b->dump();
+	in[1]->dump();
 	printTimeline();
 	out->dump();
 	printTimeline();
