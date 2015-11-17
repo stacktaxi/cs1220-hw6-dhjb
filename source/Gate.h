@@ -3,10 +3,6 @@
 #include <vector>
 #include <queue>
 
-class Vector;
-
-Vector *vector;
-
 typedef unsigned TriState;
 const TriState X = 2;
 
