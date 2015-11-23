@@ -1,7 +1,13 @@
 #include "Vector.h"
 #include "IO.h"
-#include "And.h"
 #include "Not.h"
+#include "And.h"
+#include "Nand.h"
+#include "Or.h"
+#include "Nor.h"
+#include "Xor.h"
+#include "Xnor.h"
+
 
 void tokenizeStr(std::string s, std::vector<std::string> &tokens, char delim) {
     tokens.clear();
@@ -54,37 +60,34 @@ Vector::Vector(std::string circuit_path, std::string vector_path) {
             wires[std::stoi(tokens[4])].in = gate;
         }
         else if(tokens[1] == "OR") {
-        	/*Or *gate = new Or(this, std::stoi(tokens[1]));
+        	Or *gate = new Or(this, std::stoi(tokens[1]));
             wires[std::stoi(tokens[2])].outs.push_back(gate);
             wires[std::stoi(tokens[3])].outs.push_back(gate);
-            wires[std::stoi(tokens[4])].in = gate;*/
+            wires[std::stoi(tokens[4])].in = gate;
         }
         else if(tokens[1] == "XOR") {
-        	/*Xor *gate = new Or(this, std::stoi(tokens[1]));
+        	Xor *gate = new Xor(this, std::stoi(tokens[1]));
             wires[std::stoi(tokens[2])].outs.push_back(gate);
             wires[std::stoi(tokens[3])].outs.push_back(gate);
-            wires[std::stoi(tokens[4])].in = gate;*/
-
+            wires[std::stoi(tokens[4])].in = gate;
         }
         else if(tokens[1] == "NAND") {
-        	/*Nand *gate = new Nand(this, std::stoi(tokens[1]));
+        	Nand *gate = new Nand(this, std::stoi(tokens[1]));
             wires[std::stoi(tokens[2])].outs.push_back(gate);
             wires[std::stoi(tokens[3])].outs.push_back(gate);
-            wires[std::stoi(tokens[4])].in = gate;*/
-
+            wires[std::stoi(tokens[4])].in = gate;
         }
         else if(tokens[1] == "NOR") {
-        	/*Nor *gate = new Nor(this, std::stoi(tokens[1]));
+        	Nor *gate = new Nor(this, std::stoi(tokens[1]));
             wires[std::stoi(tokens[2])].outs.push_back(gate);
             wires[std::stoi(tokens[3])].outs.push_back(gate);
-            wires[std::stoi(tokens[4])].in = gate;*/
-
+            wires[std::stoi(tokens[4])].in = gate;
         }
         else if(tokens[1] == "XNOR") {
-        	/*Xnor *gate = new Xnor(this, std::stoi(tokens[1]));
+        	Xnor *gate = new Xnor(this, std::stoi(tokens[1]));
             wires[std::stoi(tokens[2])].outs.push_back(gate);
             wires[std::stoi(tokens[3])].outs.push_back(gate);
-            wires[std::stoi(tokens[4])].in = gate;*/
+            wires[std::stoi(tokens[4])].in = gate;
         }
     }
 
@@ -101,13 +104,7 @@ Vector::Vector(std::string circuit_path, std::string vector_path) {
 
 void Vector::clock() {
 	while(continue_running) {
-		continue_running = false;
-
-		for(IO *in : inputs) {
-			in->tick();
-		}
-
-		++current_time;
+		tick();
 	}
 
 	for(IO *in : inputs) {
@@ -119,6 +116,16 @@ void Vector::clock() {
 		out->dump();
 		printTimeline();
 	}
+}
+
+void Vector::tick() {
+	continue_running = false;
+
+	for(IO *in : inputs) {
+		in->tick();
+	}
+
+	++current_time;
 }
 
 void Vector::printTimeline() {

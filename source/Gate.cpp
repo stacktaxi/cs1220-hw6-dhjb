@@ -3,6 +3,7 @@
 Gate::Gate(Vector *v, unsigned _delay) {
 	my_vector = v;
 	delay = _delay;
+	value = X;
 }
 
 void Gate::tick() {

@@ -6,8 +6,6 @@
 
 class Gate;
 class IO;
-class And;
-class Not;
 
 struct Wire {
     Gate *in;
@@ -27,7 +25,10 @@ class Vector {
 
 public:
 	Vector(std::string, std::string);
+
 	void clock();
+	void tick();
+
 	void printTimeline();
 	unsigned getCurrentTime();
 	void continueRunning();
