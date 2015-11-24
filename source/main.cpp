@@ -24,7 +24,7 @@
 
 #ifdef TERM_INAL
 	int main() {
-		Vector vector = Vector("", "");
+		Vector vector = Vector("./resources/sample_circuit", "./resources/sample_vector");
 		vector.clock();
 	}
 #else
