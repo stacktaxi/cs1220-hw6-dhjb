@@ -23,8 +23,13 @@
 #endif
 
 #ifdef TERM_INAL
+<<<<<<< HEAD
 	int main(int argc, char **argv) {
 		Vector vector = Vector(argv[1], argv[2]);
+=======
+	int main() {
+		Vector vector = Vector("./resources/sample_circuit", "./resources/sample_vector");
+>>>>>>> cd4ffba087d9eee98ebdf2e5a91035e8d22f200a
 		vector.clock();
 	}
 #else
