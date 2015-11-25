@@ -16,4 +16,7 @@ public:
 	virtual TriState recompute();
 
 	void dump();
+
+	std::string getName();
+	void addValue(ValueAtTime);
 };

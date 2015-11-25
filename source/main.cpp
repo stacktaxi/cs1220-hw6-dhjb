@@ -23,8 +23,8 @@
 #endif
 
 #ifdef TERM_INAL
-	int main() {
-		Vector vector = Vector("", "");
+	int main(int argc, char **argv) {
+		Vector vector = Vector(argv[1], argv[2]);
 		vector.clock();
 	}
 #else

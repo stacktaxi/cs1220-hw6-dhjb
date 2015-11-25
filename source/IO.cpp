@@ -39,3 +39,11 @@ TriState IO::recompute() {
 void IO::dump() {
 	std::cout << name << ":\n" << out_dump << "\n";
 }
+
+std::string IO::getName() {
+	return name;
+}
+
+void IO::addValue(ValueAtTime value) {
+	future_values.push(value);
+}

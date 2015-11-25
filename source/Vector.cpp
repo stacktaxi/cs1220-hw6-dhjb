@@ -53,37 +53,37 @@ Vector::Vector(std::string circuit_path, std::string vector_path) {
             wires[std::stoi(tokens[2])].outs.push_back(gate);
             wires[std::stoi(tokens[3])].in = gate;
         }
-        else if(tokens[1] == "AND") {
+        else if(tokens[0] == "AND") {
         	And *gate = new And(this, std::stoi(tokens[1]));
             wires[std::stoi(tokens[2])].outs.push_back(gate);
             wires[std::stoi(tokens[3])].outs.push_back(gate);
             wires[std::stoi(tokens[4])].in = gate;
         }
-        else if(tokens[1] == "OR") {
+        else if(tokens[0] == "OR") {
         	Or *gate = new Or(this, std::stoi(tokens[1]));
             wires[std::stoi(tokens[2])].outs.push_back(gate);
             wires[std::stoi(tokens[3])].outs.push_back(gate);
             wires[std::stoi(tokens[4])].in = gate;
         }
-        else if(tokens[1] == "XOR") {
+        else if(tokens[0] == "XOR") {
         	Xor *gate = new Xor(this, std::stoi(tokens[1]));
             wires[std::stoi(tokens[2])].outs.push_back(gate);
             wires[std::stoi(tokens[3])].outs.push_back(gate);
             wires[std::stoi(tokens[4])].in = gate;
         }
-        else if(tokens[1] == "NAND") {
+        else if(tokens[0] == "NAND") {
         	Nand *gate = new Nand(this, std::stoi(tokens[1]));
             wires[std::stoi(tokens[2])].outs.push_back(gate);
             wires[std::stoi(tokens[3])].outs.push_back(gate);
             wires[std::stoi(tokens[4])].in = gate;
         }
-        else if(tokens[1] == "NOR") {
+        else if(tokens[0] == "NOR") {
         	Nor *gate = new Nor(this, std::stoi(tokens[1]));
             wires[std::stoi(tokens[2])].outs.push_back(gate);
             wires[std::stoi(tokens[3])].outs.push_back(gate);
             wires[std::stoi(tokens[4])].in = gate;
         }
-        else if(tokens[1] == "XNOR") {
+        else if(tokens[0] == "XNOR") {
         	Xnor *gate = new Xnor(this, std::stoi(tokens[1]));
             wires[std::stoi(tokens[2])].outs.push_back(gate);
             wires[std::stoi(tokens[3])].outs.push_back(gate);
@@ -100,6 +100,23 @@ Vector::Vector(std::string circuit_path, std::string vector_path) {
     		out->setInput(entry.second.in);
     	}
 	}
+
+	infile.open(vector_path);
+
+	while(!infile.eof()) {
+        getline(infile, line);
+        tokenizeStr(line, tokens, ' ');
+        if(tokens[0] == "VECTOR") {
+        	continue;
+        }
+        else {
+        	for(IO *in : inputs) {
+        		if(in->getName() == tokens[1]) {
+        			in->addValue({(unsigned) std::stoi(tokens[3]), tokens[2] == "X" ? X : std::stoi(tokens[1]) });
+        		}
+        	}
+        }
+    }
 }
 
 void Vector::clock() {
