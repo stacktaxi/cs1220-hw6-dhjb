@@ -29,6 +29,9 @@
 	}
 #else
 	#ifdef TERM_STU
+        #include "GUICanvas.cpp"
+        #include "Scope.cpp" 
+        #include "GUI.cpp" 
 		#include "App.cpp"
 	#else
 		#include "App.h"

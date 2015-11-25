@@ -1,6 +1,18 @@
 #include "GUI.h"
 
+// Timer code is largely borrowed from the wiki:
+
+SimTimer::SimTimer(Scope *scope)
+: wxTimer(), scope(scope) {}
+
+void SimTimer::Notify() { scope->Refresh(); }
+
+void SimTimer::Start() { wxTimer::Start(5); }
+
+/**************------------------*******************/
+
 wxBEGIN_EVENT_TABLE(MainWindow, wxFrame)
+    EVT_CLOSE(MainWindow::OnClose) 
     EVT_MENU(wxID_EXIT, MainWindow::OnExit)
 wxEND_EVENT_TABLE()
 
@@ -16,6 +28,8 @@ MainWindow::MainWindow
 
     SetMenuBar(menuBar);
 
+    scope = new Scope(this);
+
     // set up the sizer
     wxBoxSizer *top = new wxBoxSizer(wxVERTICAL);
     top->Add(
@@ -24,7 +38,7 @@ MainWindow::MainWindow
             wxEXPAND | wxALL,
             2);
     top->Add(
-            new wxStaticText(this, -1, "scope"),
+            scope,
             1,
             wxEXPAND | wxALL,
             2);
@@ -35,7 +49,21 @@ MainWindow::MainWindow
     // this seems cheap, but it's also very simple. I think we should stick with this
     // unless SetStatusText() becomes annoying to use.
     CreateStatusBar();
-    SetStatusText("nonfunctional");
+    SetStatusText("nonfunctional"); 
+
+    timer = new SimTimer(scope);
+    Show();
+    timer->Start();
+}
+
+MainWindow::~MainWindow() { 
+    delete timer;
+}
+
+
+void MainWindow::OnClose(wxCloseEvent &event) {
+    timer->Stop();
+    event.Skip();
 }
 
 void MainWindow::OnExit(wxCommandEvent& event) { Close(true); }

@@ -112,7 +112,7 @@ Vector::Vector(std::string circuit_path, std::string vector_path) {
         else {
         	for(IO *in : inputs) {
         		if(in->getName() == tokens[1]) {
-        			in->addValue({(unsigned) std::stoi(tokens[3]), tokens[2] == "X" ? X : std::stoi(tokens[1]) });
+        			// in->addValue({(unsigned) std::stoi(tokens[3]), tokens[2] == "X" ? X : std::stoi(tokens[1]) });
         		}
         	}
         }
