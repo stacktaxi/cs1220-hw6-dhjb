@@ -10,5 +10,5 @@ class GUICanvas: public wxPanel {
         
         void PaintEvent(wxPaintEvent &event);
         void PaintNow();
-        void Render(wxDC &dc);
+        virtual void Render(wxDC &dc);
 };

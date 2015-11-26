@@ -1,16 +1,5 @@
 #include "GUI.h"
 
-// Timer code is largely borrowed from the wiki:
-
-SimTimer::SimTimer(Scope *scope)
-: wxTimer(), scope(scope) {}
-
-void SimTimer::Notify() { scope->Refresh(); }
-
-void SimTimer::Start() { wxTimer::Start(5); }
-
-/**************------------------*******************/
-
 wxBEGIN_EVENT_TABLE(MainWindow, wxFrame)
     EVT_CLOSE(MainWindow::OnClose) 
     EVT_MENU(wxID_EXIT, MainWindow::OnExit)
@@ -50,19 +39,19 @@ MainWindow::MainWindow
     // unless SetStatusText() becomes annoying to use.
     CreateStatusBar();
     SetStatusText("nonfunctional"); 
-
-    timer = new SimTimer(scope);
-    Show();
-    timer->Start();
 }
 
 MainWindow::~MainWindow() { 
-    delete timer;
+}
+
+void MainWindow::Tick() {
+    std::srand(std::time(0));
+    scope->Tick(std::rand() % 3);
+    scope->Refresh();
 }
 
 
 void MainWindow::OnClose(wxCloseEvent &event) {
-    timer->Stop();
     event.Skip();
 }
 

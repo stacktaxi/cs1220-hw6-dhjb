@@ -18,16 +18,4 @@ void GUICanvas::PaintNow() {
 }
 
 void GUICanvas::Render(wxDC &dc) {
-    static int y = 0;
-    static int y_speed = 2;
-
-    y += y_speed;
-    if(y < 0)
-        y_speed = 2;
-    else if(y > 100)
-        y_speed = -2;
-
-    dc.SetBackground(*wxWHITE_BRUSH);
-    dc.Clear();
-    dc.DrawText("Testing", 40, y);
 }
