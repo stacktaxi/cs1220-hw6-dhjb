@@ -21,14 +21,12 @@ MainWindow::MainWindow
 
     // @TESTING
     // Replace with accessors to vector class.
-    scopes.push_back(new Scope(this));
-    scopes.push_back(new Scope(this));      
-    scopes.push_back(new Scope(this));
+    vector->connectScopes(this, scopes);
 
     scopeGrid = new wxFlexGridSizer(scopes.size(), 2, 0, 0);
     for(int i = 0; i < scopes.size(); i++) {
         scopeGrid->AddGrowableRow(i, 1);
-        scopeGrid->Add(new wxStaticText(this, -1, "test"));
+        scopeGrid->Add(new wxStaticText(this, -1, scopes[i]->GetLabel()));
         scopeGrid->Add(scopes[i], 0, wxEXPAND);
     }
     scopeGrid->AddGrowableCol(1,1);
@@ -57,16 +55,15 @@ MainWindow::MainWindow
 }
 
 MainWindow::~MainWindow() { 
+    for(Scope* scope : scopes)
+        delete scope;
 }
 
 void MainWindow::SetVector(Vector *vec) { vector = vec; }
 
 void MainWindow::Tick() {
-    // @TESTINGS
-    // Replace with read inputs & outputs from vector class.
-    std::srand(std::time(0));
     for(Scope *scope : scopes) {
-        scope->Tick(std::rand() % 3);
+        scope->Tick();
         scope->Refresh();
     }
 }

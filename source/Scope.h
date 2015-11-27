@@ -1,5 +1,6 @@
 #pragma once 
 
+#include <string>
 #include <vector>
 #include <wx/wx.h>
 
@@ -13,10 +14,12 @@ const unsigned HISTORY_LIMIT = 1024;
 class Scope: public GUICanvas {
     // @TESTING
     std::vector<TriState> history;
+    IO *source;
 
     public:
-        Scope(wxFrame* parent);
+        Scope(wxFrame* parent, IO *source);
        
-        void Tick(TriState test);
+        void Tick();
         void Render(wxDC &dc);
+        std::string GetLabel();
 };

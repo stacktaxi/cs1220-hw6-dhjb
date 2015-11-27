@@ -4,6 +4,9 @@
 #include <vector>
 #include <map>
 
+#include "GUI.h"
+#include "Scope.h"
+
 class Gate;
 class IO;
 
@@ -33,5 +36,6 @@ public:
 	unsigned getCurrentTime();
 	void continueRunning();
 
+    void connectScopes(const MainWindow *win, std::vector<Scope*> &scopes);
 	void parse();
 };

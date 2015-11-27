@@ -165,3 +165,10 @@ unsigned Vector::getCurrentTime() {
 void Vector::continueRunning() {
 	continue_running = true;
 }
+
+void Vector::connectScopes(const MainWindow *win, std::vector<Scope*> &scopes) {
+    for(IO *input : inputs) 
+        scopes.push_back(new Scope((wxFrame*) win, input));
+    for(IO *output: outputs)
+        scopes.push_back(new Scope((wxFrame*) win, output));
+}

@@ -1,15 +1,15 @@
 #include "Scope.h"
 
-Scope::Scope(wxFrame* parent) 
-: GUICanvas(parent) {
+Scope::Scope(wxFrame* parent, IO *source) 
+: GUICanvas(parent), source(source) {
     SetBackgroundColour(*wxWHITE);
 }
 
-void Scope::Tick(TriState test) {
+void Scope::Tick() {
     if(history.size() >= HISTORY_LIMIT) {
         history.erase(history.begin(), history.end() - 256);
     }
-    history.push_back(test); 
+    history.push_back(source->getValue()); 
 }
 
 void Scope::Render(wxDC &dc) {
@@ -44,3 +44,5 @@ void Scope::Render(wxDC &dc) {
         xpos -= STEP_WIDTH;
     }
 }
+
+std::string Scope::GetLabel() { return source->getName(); }

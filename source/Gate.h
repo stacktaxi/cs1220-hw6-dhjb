@@ -7,6 +7,8 @@
 typedef unsigned TriState;
 const TriState X = 2;
 
+class Vector;
+
 struct ValueAtTime {
 	unsigned time;
 	TriState value;
