@@ -4,6 +4,8 @@ Gate::Gate(Vector *v, unsigned _delay) {
 	my_vector = v;
 	delay = _delay;
 	value = X;
+	in[0] = nullptr;
+	in[1] = nullptr;
 }
 
 void Gate::tick() {

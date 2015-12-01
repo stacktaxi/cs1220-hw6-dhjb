@@ -4,8 +4,11 @@
 #include <vector>
 #include <map>
 
-#include "GUI.h"
-#include "Scope.h"
+#ifndef TERM_INAL
+	#include "GUI.h"
+	#include "Scope.h"
+#endif
+
 
 class Gate;
 class IO;
@@ -36,6 +39,9 @@ public:
 	unsigned getCurrentTime();
 	void continueRunning();
 
-    void connectScopes(const MainWindow *win, std::vector<Scope*> &scopes);
+	#ifndef TERM_INAL
+	    void connectScopes(const MainWindow *win, std::vector<Scope*> &scopes);
+    #endif
+
 	void parse();
 };
