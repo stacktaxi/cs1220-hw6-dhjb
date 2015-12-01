@@ -2,16 +2,6 @@
 
 IO::IO(Vector *v, unsigned _delay, std::string _name) : Gate(v, _delay) {
 	name = _name;
-
-	// @TESTING
-	if(name == "A") {
-		future_values.push({0, 1});
-		future_values.push({4, 0});
-	}
-	if(name == "B") {
-		future_values.push({1, 1});
-		future_values.push({2, X});
-	}
 }
 
 TriState IO::recompute() {
