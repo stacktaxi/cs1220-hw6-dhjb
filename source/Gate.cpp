@@ -14,7 +14,7 @@ void Gate::tick() {
 		return;
 	}
 
-	if((in[0] && (in[0]->getCurrentTime() < my_vector->getCurrentTime() || in[0]->getCurrentTime() == UINT_MAX)) || (in[1] && (in[1]->getCurrentTime() < my_vector->getCurrentTime() || in[1]->getCurrentTime() == UINT_MAX))) {
+	if((in[0] != nullptr && (in[0]->getCurrentTime() < my_vector->getCurrentTime() || in[0]->getCurrentTime() == UINT_MAX)) || (in[1] != nullptr && (in[1]->getCurrentTime() < my_vector->getCurrentTime() || in[1]->getCurrentTime() == UINT_MAX))) {
 		// One of the inputs has not ticked this clock cycle. We can not reevaluate our current state unless all inputs are up to date with the current tick.
 		return;
 	}
