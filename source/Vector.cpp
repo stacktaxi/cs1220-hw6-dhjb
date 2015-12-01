@@ -31,6 +31,8 @@ Vector::Vector(std::string circuit_path, std::string vector_path) {
 
     std::map<unsigned, Wire> wires;
 
+    this->current_time = 0; 
+
     while(!infile.eof()) {
         getline(infile, line);
         tokenizeStr(line, tokens, ' ');
@@ -148,7 +150,7 @@ void Vector::tick() {
 }
 
 void Vector::printTimeline() {
-	for(int i = 0; i < current_time; ++i) {
+	for(unsigned i = 0; i < current_time; ++i) {
 		if(i % 5 == 0) {
 			std::cout << i;
 		}
