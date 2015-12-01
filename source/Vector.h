@@ -38,6 +38,7 @@ public:
 	void printTimeline();
 	unsigned getCurrentTime();
 	void continueRunning();
+    bool isRunning();
 
 	#ifndef TERM_INAL
 	    void connectScopes(const MainWindow *win, std::vector<Scope*> &scopes);

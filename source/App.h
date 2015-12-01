@@ -7,9 +7,10 @@
 
 class SimTimer: public wxTimer {
     MainWindow *mainWin;
+    Vector *vector;
 
     public:
-        SimTimer(MainWindow *mainWin);
+        SimTimer(Vector *vector, MainWindow *mainWin);
         void Notify(); // called every time the timer ticks
         void Start();
 }; 

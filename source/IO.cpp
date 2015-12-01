@@ -37,3 +37,5 @@ std::string IO::getName() {
 void IO::addValue(ValueAtTime value) {
 	future_values.push(value);
 }
+
+bool IO::isRunning() { return my_vector->isRunning(); }

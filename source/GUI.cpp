@@ -62,9 +62,11 @@ MainWindow::~MainWindow() {
 void MainWindow::SetVector(Vector *vec) { vector = vec; }
 
 void MainWindow::Tick() {
-    for(Scope *scope : scopes) {
-        scope->Tick();
-        scope->Refresh();
+    if(vector->isRunning()) {
+        for(Scope *scope : scopes) {
+            scope->Tick();
+            scope->Refresh();
+        }
     }
 }
 

@@ -8,7 +8,7 @@
 #include "IO.h"
 #include "GUICanvas.h"
 
-const unsigned STEP_WIDTH = 5;
+const unsigned STEP_WIDTH = 10;
 const unsigned HISTORY_LIMIT = 1024;
 
 class Scope: public GUICanvas {

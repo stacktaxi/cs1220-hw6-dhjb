@@ -166,9 +166,9 @@ unsigned Vector::getCurrentTime() {
 }
 
 // Called if the circuit needs more ticks in order to run all of its states.
-void Vector::continueRunning() {
-	continue_running = true;
-}
+void Vector::continueRunning() { continue_running = true; }
+
+bool Vector::isRunning() { return continue_running; }
 
 #ifndef TERM_INAL
 	void Vector::connectScopes(const MainWindow *win, std::vector<Scope*> &scopes) {

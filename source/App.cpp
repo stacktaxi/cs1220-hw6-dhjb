@@ -2,10 +2,11 @@
 
 // Timer code is largely borrowed from the wiki
 
-SimTimer::SimTimer(MainWindow *mainWin)
-: wxTimer(), mainWin(mainWin) {}
+SimTimer::SimTimer(Vector *vector, MainWindow *mainWin)
+: wxTimer(), vector(vector), mainWin(mainWin) {}
 
 void SimTimer::Notify() {
+    vector->tick();
     mainWin->Tick();
 }
 
@@ -22,8 +23,8 @@ bool SimApp::OnInit() {
     vector = new Vector(std::string(wxApp::argv[1]), std::string(wxApp::argv[2]));
     
     MainWindow *mainWindow = new MainWindow(vector, "Digital Circuit Sim", wxPoint(50, 50), wxSize(640, 480));
-    mainWindow->SetVector(vector);
-    timer = new SimTimer(mainWindow);
+    mainWindow->SetMinSize(wxSize(480, 320));
+    timer = new SimTimer(vector, mainWindow);
     mainWindow->Show(true);
     timer->Start(); 
 

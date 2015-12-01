@@ -10,6 +10,7 @@
 class IO : public Gate {
 	std::string name;
 	std::string out_dump;
+
 public:
 	IO(Vector *, unsigned, std::string);
 
@@ -19,4 +20,7 @@ public:
 
 	std::string getName();
 	void addValue(ValueAtTime);
+
+    // For scope
+    bool isRunning();
 };

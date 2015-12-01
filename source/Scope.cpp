@@ -36,6 +36,7 @@ void Scope::Render(wxDC &dc) {
         }
         else {
             // draw rectangle
+            dc.SetBrush(wxBrush(*wxBLACK));
             dc.DrawRectangle(xpos - STEP_WIDTH, 5, 
                              STEP_WIDTH, GetClientSize().GetHeight() - 10);
         } 
