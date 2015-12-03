@@ -15,7 +15,7 @@ void tokenizeStr(std::string s, std::vector<std::string> &tokens, char delim) {
     size_t pos = 0;
 
     // Keep splitting off parts of string until delim is no longer found.
-    for(pos; pos < s.length(); pos++) {
+    for(; pos < s.length(); pos++) {
         if(s[pos] == ' ') {
             if(!substring.empty()) {
                 tokens.push_back(substring);
@@ -37,7 +37,7 @@ Vector::Vector(std::string circuit_path, std::string vector_path) {
     std::string line;
     std::vector<std::string> tokens;
 
-    std::map<unsigned, Wire> wires; 
+    std::map<unsigned, Wire> wires;
 
     while(!infile.eof()) {
         getline(infile, line);
@@ -115,7 +115,7 @@ Vector::Vector(std::string circuit_path, std::string vector_path) {
 	while(!infile.eof()) {
         getline(infile, line);
         tokenizeStr(line, tokens, ' ');
-        if(tokens[0] == "VECTOR") {
+        if(tokens[0] != "INPUT") {
         	continue;
         }
         else {
@@ -131,7 +131,12 @@ Vector::Vector(std::string circuit_path, std::string vector_path) {
 }
 
 void Vector::clock() {
-	while(continue_running) {
+	// std::cout << "How many nanoseconds should be our max?\n";
+
+	unsigned max = 100;
+	// std::cin >> max;
+
+	while(continue_running || current_time <= max) {
 		tick();
 	}
 
