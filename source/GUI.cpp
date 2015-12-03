@@ -3,13 +3,13 @@
 ScopePane::ScopePane(wxWindow *parent, Vector *vector)
 : wxScrolledWindow(parent), vector(vector){
     vector->connectScopes((wxFrame *)this, scopes);
-    // timeline = new ScopeTimeline(this, vector);
+    timeline = new ScopeTimeline((wxFrame*) this, vector);
 
-    scopeGrid = new wxFlexGridSizer(scopes.size(), 2, 0, 0);
-    // scopeGrid->Add(new wxStaticText(this, -1, "Time"));
-    // scopeGrid->Add(timeline, 0, wxEXPAND);
+    scopeGrid = new wxFlexGridSizer(scopes.size() + 1, 2, 5, 5);
+    scopeGrid->Add(new wxStaticText(this, -1, "Time"));
+    scopeGrid->Add(timeline, 0, wxEXPAND);
     for(int i = 0; i < scopes.size(); i++) {
-        scopeGrid->AddGrowableRow(i, 1);
+        scopeGrid->AddGrowableRow(i + 1, 1);
         scopeGrid->Add(new wxStaticText(this, -1, scopes[i]->GetLabel()));
         scopeGrid->Add(scopes[i], 0, wxEXPAND);
     }
@@ -30,11 +30,13 @@ ScopePane::ScopePane(wxWindow *parent, Vector *vector)
 ScopePane::~ScopePane() {
     for(Scope *scope : scopes)
         delete scope;
+    delete timeline;
 }
 
 void ScopePane::Refresh() {
     for(Scope *scope : scopes)
         scope->Refresh();
+    timeline->Refresh();
     FitInside();
 }
 
@@ -91,9 +93,4 @@ void MainWindow::OnExit(wxCommandEvent &event) { Close(true); }
         scope->Refresh();
     }
 } */
-
-/*
-void MainWindow::OnOpen(wxCommandEvent& event) {
-}
-*/
 

@@ -22,7 +22,7 @@ struct Wire {
 class Vector {
 	std::string name;
 
-	unsigned current_time;
+	unsigned current_time = 0;
 
 	std::vector<IO *> inputs;
 	std::vector<IO *> outputs;

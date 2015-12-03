@@ -6,18 +6,23 @@ ScopeTimeline::ScopeTimeline(wxFrame* parent, Vector *vector)
 }
 
 void ScopeTimeline::Render(wxDC &dc) {
-    int current_time = vector->getCurrentTime();
-    int x_pos = GetClientSize().GetWidth();
-    int height = GetClientSize().GetHeight();
+    for(unsigned time = 0; time <= vector->getCurrentTime(); time++) {
+        if(!(time % TIME_GAP)) {
+            if(STEP_WIDTH > 20 && time > 0) {
+                if(time < 10)
+                    dc.DrawText(std::to_string(time), time * STEP_WIDTH - 8, 0);
+                else 
+                    dc.DrawText(std::to_string(time), time * STEP_WIDTH - 17, 0);
+                dc.DrawLine(time * STEP_WIDTH, 0,
+                            time * STEP_WIDTH, GetClientSize().GetHeight());
+            }
+            else 
+                dc.DrawText(std::to_string(time), time * STEP_WIDTH, 0);
+        }
+        else
+            dc.DrawLine(time * STEP_WIDTH, 0, 
+                        time * STEP_WIDTH, GetClientSize().GetHeight());
+    } 
 
-    // Align time with time gap
-    current_time -= current_time % TIME_GAP;
-    x_pos -= (current_time % TIME_GAP) * STEP_WIDTH;
-
-    while(x_pos >= 0 && current_time >= 0) {
-        dc.DrawText(std::to_string(current_time), x_pos, 5);
-
-        current_time -= TIME_GAP;
-        x_pos -= TIME_GAP * STEP_WIDTH;
-    }
+    this->SetMinClientSize(wxSize(vector->getCurrentTime() * STEP_WIDTH, 10));
 }

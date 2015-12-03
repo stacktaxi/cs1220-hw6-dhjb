@@ -6,7 +6,8 @@ SimTimer::SimTimer(Vector *vector, MainWindow *mainWin)
 : wxTimer(), vector(vector), mainWin(mainWin) {}
 
 void SimTimer::Notify() {
-    vector->tick();
+    if(vector->isRunning())
+        vector->tick();
     mainWin->Tick();
 }
 
