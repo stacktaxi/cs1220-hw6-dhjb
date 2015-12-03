@@ -114,6 +114,11 @@ Vector::Vector(std::string circuit_path, std::string vector_path) {
 
 	while(!infile.eof()) {
         getline(infile, line);
+
+        if(line.empty()) {
+        	continue;
+        }
+
         tokenizeStr(line, tokens, ' ');
         if(tokens[0] != "INPUT") {
         	continue;
