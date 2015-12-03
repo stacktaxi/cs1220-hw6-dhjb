@@ -60,42 +60,49 @@ Vector::Vector(std::string circuit_path, std::string vector_path) {
         	Not *gate = new Not(this, std::stoi(tokens[1]));
             wires[std::stoi(tokens[2])].outs.push_back(gate);
             wires[std::stoi(tokens[3])].in = gate;
+            other.push_back(gate);
         }
         else if(tokens[0] == "AND") {
         	And *gate = new And(this, std::stoi(tokens[1]));
             wires[std::stoi(tokens[2])].outs.push_back(gate);
             wires[std::stoi(tokens[3])].outs.push_back(gate);
             wires[std::stoi(tokens[4])].in = gate;
+            other.push_back(gate);
         }
         else if(tokens[0] == "OR") {
         	Or *gate = new Or(this, std::stoi(tokens[1]));
             wires[std::stoi(tokens[2])].outs.push_back(gate);
             wires[std::stoi(tokens[3])].outs.push_back(gate);
             wires[std::stoi(tokens[4])].in = gate;
+            other.push_back(gate);
         }
         else if(tokens[0] == "XOR") {
         	Xor *gate = new Xor(this, std::stoi(tokens[1]));
             wires[std::stoi(tokens[2])].outs.push_back(gate);
             wires[std::stoi(tokens[3])].outs.push_back(gate);
             wires[std::stoi(tokens[4])].in = gate;
+            other.push_back(gate);
         }
         else if(tokens[0] == "NAND") {
         	Nand *gate = new Nand(this, std::stoi(tokens[1]));
             wires[std::stoi(tokens[2])].outs.push_back(gate);
             wires[std::stoi(tokens[3])].outs.push_back(gate);
             wires[std::stoi(tokens[4])].in = gate;
+            other.push_back(gate);
         }
         else if(tokens[0] == "NOR") {
         	Nor *gate = new Nor(this, std::stoi(tokens[1]));
             wires[std::stoi(tokens[2])].outs.push_back(gate);
             wires[std::stoi(tokens[3])].outs.push_back(gate);
             wires[std::stoi(tokens[4])].in = gate;
+            other.push_back(gate);
         }
         else if(tokens[0] == "XNOR") {
         	Xnor *gate = new Xnor(this, std::stoi(tokens[1]));
             wires[std::stoi(tokens[2])].outs.push_back(gate);
             wires[std::stoi(tokens[3])].outs.push_back(gate);
             wires[std::stoi(tokens[4])].in = gate;
+            other.push_back(gate);
         }
     }
 
@@ -161,6 +168,12 @@ void Vector::tick() {
 
 	for(IO *in : inputs) {
 		in->tick();
+	}
+
+	for(Gate *gate : other) {
+		if(gate->getCurrentTime() < current_time || gate->getCurrentTime() == UINT_MAX) {
+			gate->tick(true);
+		}
 	}
 
 	++current_time;

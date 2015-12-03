@@ -32,7 +32,7 @@ protected:
 public:
 	Gate(Vector *, unsigned);
 
-	void tick();
+	void tick(bool = false);
 	virtual TriState recompute() = 0;
 
 	void tickOutputs();

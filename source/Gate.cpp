@@ -8,13 +8,13 @@ Gate::Gate(Vector *v, unsigned _delay) {
 	in[1] = nullptr;
 }
 
-void Gate::tick() {
+void Gate::tick(bool force) {
 	if(current_time == my_vector->getCurrentTime()) {
 		// We have already ticked this clock cycle. This means we do not need to update yet.
 		return;
 	}
 
-	if((in[0] != nullptr && (in[0]->getCurrentTime() < my_vector->getCurrentTime() || in[0]->getCurrentTime() == UINT_MAX)) || (in[1] != nullptr && (in[1]->getCurrentTime() < my_vector->getCurrentTime() || in[1]->getCurrentTime() == UINT_MAX))) {
+	if(!force && ((in[0] != nullptr && (in[0]->getCurrentTime() < my_vector->getCurrentTime() || in[0]->getCurrentTime() == UINT_MAX)) || (in[1] != nullptr && (in[1]->getCurrentTime() < my_vector->getCurrentTime() || in[1]->getCurrentTime() == UINT_MAX)))) {
 		// One of the inputs has not ticked this clock cycle. We can not reevaluate our current state unless all inputs are up to date with the current tick.
 		return;
 	}

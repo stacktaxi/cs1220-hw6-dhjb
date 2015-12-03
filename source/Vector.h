@@ -26,6 +26,7 @@ class Vector {
 
 	std::vector<IO *> inputs;
 	std::vector<IO *> outputs;
+	std::vector<Gate *> other;
 
 	bool continue_running = true;
 
