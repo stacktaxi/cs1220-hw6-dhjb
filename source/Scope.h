@@ -8,11 +8,9 @@
 #include "IO.h"
 #include "GUICanvas.h"
 
-const unsigned STEP_WIDTH = 10;
-const unsigned HISTORY_LIMIT = 1024;
+const unsigned STEP_WIDTH = 20;
 
 class Scope: public GUICanvas {
-    // @TESTING
     std::vector<TriState> history;
     IO *source;
 

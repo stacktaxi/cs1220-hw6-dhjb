@@ -31,6 +31,7 @@
 	#ifdef TERM_STU
         #include "GUICanvas.cpp"
         #include "Scope.cpp" 
+        #include "ScopeTimeline.cpp"
         #include "GUI.cpp" 
 		#include "App.cpp"
 	#else

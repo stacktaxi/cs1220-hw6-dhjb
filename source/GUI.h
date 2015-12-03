@@ -6,19 +6,17 @@
 
 #include "Gate.h"
 #include "Scope.h"
-
-enum {
-    // ID_OPEN = 1
-};
+#include "ScopeTimeline.h"
 
 class MainWindow: public wxFrame {
+    Vector *vector; 
     std::vector<Scope*> scopes;
+    // ScopeTimeline *timeline;
     wxFlexGridSizer *scopeGrid;
-    Vector *vector;
 
     void OnClose(wxCloseEvent &event);
     void OnExit(wxCommandEvent &event);
-    // void OnOpen(wxCommandEvent &event); 
+    //void OnResize(wxSizeEvent &event);
     DECLARE_EVENT_TABLE();
  
     public:
