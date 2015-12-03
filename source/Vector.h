@@ -41,7 +41,7 @@ public:
     bool isRunning();
 
 	#ifndef TERM_INAL
-	    void connectScopes(const MainWindow *win, std::vector<Scope*> &scopes);
+	    void connectScopes(wxFrame *win, std::vector<Scope*> &scopes);
     #endif
 
 	void parse();

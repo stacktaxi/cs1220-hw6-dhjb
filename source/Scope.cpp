@@ -39,6 +39,8 @@ void Scope::Render(wxDC &dc) {
                              STEP_WIDTH, GetClientSize().GetHeight() - 10);
         }
     }
+
+    this->SetMinClientSize(wxSize(history.size() * STEP_WIDTH, 50));
 }
 
 std::string Scope::GetLabel() { return source->getName(); }

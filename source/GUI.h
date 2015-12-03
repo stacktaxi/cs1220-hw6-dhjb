@@ -8,11 +8,23 @@
 #include "Scope.h"
 #include "ScopeTimeline.h"
 
-class MainWindow: public wxFrame {
-    Vector *vector; 
+class ScopePane: public wxScrolledWindow {
+    Vector *vector;
+
+    ScopeTimeline *timeline;
     std::vector<Scope*> scopes;
-    // ScopeTimeline *timeline;
-    wxFlexGridSizer *scopeGrid;
+    wxFlexGridSizer *scopeGrid; 
+
+    public:
+        ScopePane(wxWindow *parent, Vector *vector);
+        ~ScopePane();
+
+        void Refresh();
+        void Tick();
+};
+
+class MainWindow: public wxFrame {
+    ScopePane *scopePane;
 
     void OnClose(wxCloseEvent &event);
     void OnExit(wxCommandEvent &event);
@@ -21,12 +33,11 @@ class MainWindow: public wxFrame {
  
     public:
         MainWindow(
-                Vector *vec,
+                Vector *vector,
                 const wxString& title, 
                 const wxPoint& pos, 
                 const wxSize& size);
         ~MainWindow();
 
-        void SetVector(Vector *vec);
         void Tick();
 };

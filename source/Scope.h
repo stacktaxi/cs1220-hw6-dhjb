@@ -8,7 +8,7 @@
 #include "IO.h"
 #include "GUICanvas.h"
 
-const unsigned STEP_WIDTH = 20;
+const unsigned STEP_WIDTH = 50;
 
 class Scope: public GUICanvas {
     std::vector<TriState> history;

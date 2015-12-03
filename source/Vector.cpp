@@ -171,10 +171,10 @@ void Vector::continueRunning() { continue_running = true; }
 bool Vector::isRunning() { return continue_running; }
 
 #ifndef TERM_INAL
-	void Vector::connectScopes(const MainWindow *win, std::vector<Scope*> &scopes) {
+	void Vector::connectScopes(wxFrame *win, std::vector<Scope*> &scopes) {
 	    for(IO *input : inputs)
-	        scopes.push_back(new Scope((wxFrame*) win, input));
+	        scopes.push_back(new Scope(win, input));
 	    for(IO *output: outputs)
-	        scopes.push_back(new Scope((wxFrame*) win, output));
+	        scopes.push_back(new Scope(win, output));
 	}
 #endif

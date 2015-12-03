@@ -1,24 +1,8 @@
 #include "GUI.h"
 
-wxBEGIN_EVENT_TABLE(MainWindow, wxFrame)
-    EVT_CLOSE(MainWindow::OnClose)
-    EVT_MENU(wxID_EXIT, MainWindow::OnExit)
-    // EVT_SIZE(MainWindow::OnResize)
-wxEND_EVENT_TABLE()
-
-MainWindow::MainWindow
-(Vector *vec, const wxString& title, const wxPoint& pos, const wxSize& size)
-: wxFrame(NULL, wxID_ANY, title, pos, size), vector(vec) {
-    // menu bar
-    wxMenu *fileMenu = new wxMenu;
-    fileMenu->Append(wxID_EXIT); 
-
-    wxMenuBar *menuBar = new wxMenuBar;
-    menuBar->Append(fileMenu, "&File");
-
-    SetMenuBar(menuBar);
-
-    vector->connectScopes(this, scopes);
+ScopePane::ScopePane(wxWindow *parent, Vector *vector)
+: wxScrolledWindow(parent), vector(vector){
+    vector->connectScopes((wxFrame *)this, scopes);
     // timeline = new ScopeTimeline(this, vector);
 
     scopeGrid = new wxFlexGridSizer(scopes.size(), 2, 0, 0);
@@ -33,45 +17,69 @@ MainWindow::MainWindow
 
     // set up the sizer
     wxBoxSizer *top = new wxBoxSizer(wxVERTICAL);
-    /*
-    top->Add(
-            new wxStaticText(this, -1, "circuit"),
-            1,
-            wxEXPAND | wxALL,
-            2);
-    */
     top->Add(
             scopeGrid,
             1,
             wxEXPAND);
     
-    SetSizerAndFit(top);
-
-    // status bar
-    // this seems cheap, but it's also very simple. I think we should stick with this
-    // unless SetStatusText() becomes annoying to use.
-    CreateStatusBar();
-    SetStatusText("nonfunctional"); 
+    SetSizer(top);
+    FitInside();
+    SetScrollRate(5, 5);
 }
 
-MainWindow::~MainWindow() { 
-    for(Scope* scope : scopes)
+ScopePane::~ScopePane() {
+    for(Scope *scope : scopes)
         delete scope;
-    // delete timeline;
 }
 
-void MainWindow::SetVector(Vector *vec) { vector = vec; }
+void ScopePane::Refresh() {
+    for(Scope *scope : scopes)
+        scope->Refresh();
+    FitInside();
+}
+
+void ScopePane::Tick() {
+    if(vector->isRunning()) {
+        for(Scope *scope : scopes)
+            scope->Tick();
+    } 
+    Refresh();
+}
+
+wxBEGIN_EVENT_TABLE(MainWindow, wxFrame)
+    EVT_CLOSE(MainWindow::OnClose)
+    EVT_MENU(wxID_EXIT, MainWindow::OnExit)
+    // EVT_SIZE(MainWindow::OnResize)
+wxEND_EVENT_TABLE()
+
+MainWindow::MainWindow
+(Vector *vector, const wxString& title, const wxPoint& pos, const wxSize& size)
+: wxFrame(NULL, wxID_ANY, title, pos, size) {
+    // menu bar
+    wxMenu *fileMenu = new wxMenu;
+    fileMenu->Append(wxID_EXIT); 
+    wxMenuBar *menuBar = new wxMenuBar;
+    menuBar->Append(fileMenu, "&File");
+    SetMenuBar(menuBar); 
+
+    scopePane = new ScopePane(this, vector);
+
+    wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
+    sizer->Add(
+            scopePane,
+            1,
+            wxEXPAND);
+    SetSizer(sizer);
+}
+
+MainWindow::~MainWindow() {
+    delete scopePane;
+}
+
 
 void MainWindow::Tick() {
-    if(vector->isRunning()) {
-        for(Scope *scope : scopes) {
-            scope->Tick();
-            scope->Refresh();
-        }
-        // timeline->Refresh();
-    }
+    scopePane->Tick();
 }
-
 
 void MainWindow::OnClose(wxCloseEvent &event) { event.Skip(); }
 

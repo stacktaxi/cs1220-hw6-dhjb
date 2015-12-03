@@ -23,7 +23,7 @@ bool SimApp::OnInit() {
     vector = new Vector(std::string(wxApp::argv[1]), std::string(wxApp::argv[2]));
     
     MainWindow *mainWindow = new MainWindow(vector, "Digital Circuit Sim", wxPoint(50, 50), wxSize(640, 480));
-    mainWindow->SetMinSize(wxSize(480, 320));
+    // mainWindow->SetMinSize(wxSize(480, 320));
     timer = new SimTimer(vector, mainWindow);
     mainWindow->Show(true);
     timer->Start(); 
