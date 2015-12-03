@@ -11,17 +11,24 @@
 
 void tokenizeStr(std::string s, std::vector<std::string> &tokens, char delim) {
     tokens.clear();
-    std::string substring = s;
-    size_t pos = substring.find_first_of(delim);
+    std::string substring = "";
+    size_t pos = 0;
 
     // Keep splitting off parts of string until delim is no longer found.
-    while(pos != std::string::npos) {
-        tokens.push_back(substring.substr(0, pos));
-        substring = substring.substr(pos + 1);
-        pos = substring.find_first_of(delim);
+    for(pos; pos < s.length(); pos++) {
+        if(s[pos] == ' ') {
+            if(!substring.empty()) {
+                tokens.push_back(substring);
+                substring = "";
+            }
+        }
+        else {
+            substring.push_back(s[pos]);
+        }
     }
 
-    tokens.push_back(substring);
+    if(!substring.empty())
+        tokens.push_back(substring);
 }
 
 Vector::Vector(std::string circuit_path, std::string vector_path) {
