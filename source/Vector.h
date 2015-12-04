@@ -18,6 +18,8 @@ struct Wire {
     std::vector<Gate*> outs;
 };
 
+const unsigned MAX_RUNNING_TIME = 100;
+
 // @CONSIDER: perhaps vector is not the best name for this considering its functionality is more to do with the circuit than anything. Maybe rename to circuit
 class Vector {
 	std::string name;

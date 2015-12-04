@@ -6,6 +6,7 @@
 
 #include "Gate.h"
 #include "IO.h"
+#include "Vector.h"
 #include "GUICanvas.h"
 
 const unsigned STEP_WIDTH = 50;

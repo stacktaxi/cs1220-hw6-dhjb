@@ -7,6 +7,10 @@ IO::IO(Vector *v, unsigned _delay, std::string _name) : Gate(v, _delay) {
 TriState IO::recompute() {
 	TriState v;
 
+#ifdef TERM_DEBUG
+    printf("IO  %s ", name.c_str());
+#endif
+
 	if(in[0]) {
 		// We are an output. This means that we get our value from an input.
 		v = in[0]->getValue();

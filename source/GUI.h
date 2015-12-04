@@ -25,6 +25,7 @@ class ScopePane: public wxScrolledWindow {
 
 class MainWindow: public wxFrame {
     ScopePane *scopePane;
+    Vector *vector;
 
     void OnClose(wxCloseEvent &event);
     void OnExit(wxCommandEvent &event);

@@ -33,7 +33,6 @@ void tokenizeStr(std::string s, std::vector<std::string> &tokens, char delim) {
 
 Vector::Vector(std::string circuit_path, std::string vector_path) {
     std::ifstream infile(circuit_path.c_str(), std::ifstream::in);
-    printf("Opened circuit file\n");
     std::string line;
     std::vector<std::string> tokens;
 
@@ -117,7 +116,6 @@ Vector::Vector(std::string circuit_path, std::string vector_path) {
 	}
 
 	infile.open(vector_path);
-    printf("Opened vector file\n");
 
 	while(!infile.eof()) {
         getline(infile, line);
@@ -145,10 +143,9 @@ Vector::Vector(std::string circuit_path, std::string vector_path) {
 void Vector::clock() {
 	// std::cout << "How many nanoseconds should be our max?\n";
 
-	unsigned max = 100;
 	// std::cin >> max;
 
-	while(continue_running || current_time <= max) {
+	while(continue_running && current_time <= MAX_RUNNING_TIME) {
 		tick();
         update();
 	}
@@ -178,6 +175,10 @@ void Vector::tick() {
 		}
 	}
     */
+
+#ifdef TERM_DEBUG
+    printf("Tick finished, vector time %d\n", current_time);
+#endif 
 
 	++current_time;
 }

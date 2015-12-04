@@ -6,7 +6,8 @@ Scope::Scope(wxFrame* parent, IO *source)
 }
 
 void Scope::Tick() {
-    history.push_back(source->getValue());
+    if(source->isRunning() && source->getCurrentTime() <= MAX_RUNNING_TIME)
+        history.push_back(source->getValue());
 }
 
 void Scope::Render(wxDC &dc) {

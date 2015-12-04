@@ -56,7 +56,7 @@ wxEND_EVENT_TABLE()
 
 MainWindow::MainWindow
 (Vector *vector, const wxString& title, const wxPoint& pos, const wxSize& size)
-: wxFrame(NULL, wxID_ANY, title, pos, size) {
+: wxFrame(NULL, wxID_ANY, title, pos, size), vector(vector) {
     // menu bar
     wxMenu *fileMenu = new wxMenu;
     fileMenu->Append(wxID_EXIT); 
@@ -82,7 +82,8 @@ MainWindow::~MainWindow() {
 
 
 void MainWindow::Tick() {
-    scopePane->Tick();
+    if(vector->isRunning() && vector->getCurrentTime() < MAX_RUNNING_TIME) 
+        scopePane->Tick();
 }
 
 void MainWindow::OnClose(wxCloseEvent &event) { event.Skip(); }
