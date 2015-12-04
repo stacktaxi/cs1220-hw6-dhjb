@@ -170,13 +170,27 @@ void Vector::tick() {
 		in->tick();
 	}
 
+    /*
 	for(Gate *gate : other) {
 		if(gate->getCurrentTime() < current_time || gate->getCurrentTime() == UINT_MAX) {
-			gate->tick(true);
+			gate->tick();
 		}
 	}
+    */
 
 	++current_time;
+}
+
+void Vector::update() {
+    for(IO *in : inputs) {
+        in->update();
+    }
+
+    /*
+    for(Gate *gate : other) {
+        gate->update();
+    }
+    */
 }
 
 void Vector::printTimeline() {
@@ -191,20 +205,17 @@ void Vector::printTimeline() {
 	std::cout << "\n";
 }
 
-unsigned Vector::getCurrentTime() {
-	return current_time;
-}
+void Vector::continueRunning() { continue_running = true; } 
 
-// Called if the circuit needs more ticks in order to run all of its states.
-void Vector::continueRunning() { continue_running = true; }
-
-bool Vector::isRunning() { return continue_running; }
+bool Vector::isRunning() { return continue_running; } 
+unsigned Vector::getCurrentTime() { return current_time; }
+std::string Vector::getName() { return name; }
 
 #ifndef TERM_INAL
-	void Vector::connectScopes(wxFrame *win, std::vector<Scope*> &scopes) {
-	    for(IO *input : inputs)
-	        scopes.push_back(new Scope(win, input));
-	    for(IO *output: outputs)
-	        scopes.push_back(new Scope(win, output));
-	}
+void Vector::connectScopes(wxFrame *win, std::vector<Scope*> &scopes) {
+	for(IO *input : inputs)
+	    scopes.push_back(new Scope(win, input));
+	for(IO *output: outputs)
+	    scopes.push_back(new Scope(win, output));
+}
 #endif

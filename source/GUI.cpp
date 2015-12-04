@@ -72,6 +72,8 @@ MainWindow::MainWindow
             1,
             wxEXPAND);
     SetSizer(sizer);
+
+    SetTitle(vector->getName());
 }
 
 MainWindow::~MainWindow() {

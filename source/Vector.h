@@ -15,7 +15,7 @@ class IO;
 
 struct Wire {
     Gate *in;
-    std::vector<Gate *> outs;
+    std::vector<Gate*> outs;
 };
 
 // @CONSIDER: perhaps vector is not the best name for this considering its functionality is more to do with the circuit than anything. Maybe rename to circuit
@@ -24,25 +24,48 @@ class Vector {
 
 	unsigned current_time = 0;
 
-	std::vector<IO *> inputs;
-	std::vector<IO *> outputs;
-	std::vector<Gate *> other;
+	std::vector<IO*> inputs;
+	std::vector<IO*> outputs;
+	std::vector<Gate*> other;
 
 	bool continue_running = true;
 
 public:
 	Vector(std::string, std::string);
 
+    // Control functions
+
+    /*
+     * Tick the vector automatically, and dump the output to stdout.
+     */
 	void clock();
+
+    /*
+     * Tick the inputs and increase the time.
+     */
 	void tick();
 
+    /*
+     * Update the inputs.
+     */
+    void update();
+
+    /*
+     * Allow the vector to tick again.
+     */
+	void continueRunning();
+
+    // Output and accessors
 	void printTimeline();
 	unsigned getCurrentTime();
-	void continueRunning();
     bool isRunning();
+    std::string getName();
 
+    /*
+     * Connect scopes to vector inputs and outputs
+     */
 	#ifndef TERM_INAL
-	    void connectScopes(wxFrame *win, std::vector<Scope*> &scopes);
+	void connectScopes(wxFrame*, std::vector<Scope*> &);
     #endif
 
 	void parse();

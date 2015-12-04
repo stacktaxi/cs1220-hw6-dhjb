@@ -10,8 +10,7 @@ void Scope::Tick() {
 }
 
 void Scope::Render(wxDC &dc) {
-    // @TESTING
-    unsigned true_height = 5;
+    const unsigned true_height = 5;
     unsigned false_height = GetClientSize().GetHeight() - 5;
 
     if(history.size() == 0)
@@ -23,6 +22,10 @@ void Scope::Render(wxDC &dc) {
             && history[historyPos] != history[historyPos - 1]) {
             dc.DrawLine(xpos, true_height,
                         xpos, false_height);
+        }
+        else {
+            for(unsigned y = 5; y < GetClientSize().GetHeight(); y += 10)
+                dc.DrawPoint(xpos, y);
         }
 
         if(history[historyPos] == 1) {
