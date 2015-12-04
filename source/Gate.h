@@ -15,33 +15,38 @@ struct ValueAtTime {
 };
 
 class Gate {
-protected:
-	unsigned delay = 0;
-	// UINT_MAX is a reserved value meaning we have yet to tick the first time.
-	unsigned current_time = UINT_MAX;
+    protected:
+        bool updated = false;
+	    unsigned delay = 0;
 
-	std::queue<ValueAtTime> future_values;
-	TriState value = 0;
+	    // UINT_MAX is a reserved value meaning we have yet to tick the first time.
+	    unsigned current_time = UINT_MAX;
 
-	Gate *in[2];
-	std::vector<Gate *> out;
+	    std::queue<ValueAtTime> future_values;
+	    TriState value = X;
 
-	Vector *my_vector;
+	    Gate *in[2];
+	    std::vector<Gate*> out;
+        Vector *my_vector;
 
-	unsigned next_input = 0;
-public:
-	Gate(Vector *, unsigned);
+	    unsigned next_input = 0;
 
-	void tick(bool = false);
-	virtual TriState recompute() = 0;
+    public:
+	    Gate(Vector *, unsigned);
 
-	void tickOutputs();
+	    void tick();
+        void update();
 
-	void setOutputs(std::vector<Gate *>);
+	    virtual TriState recompute() = 0;
+	    void tickOutputs();
+        void updateOutputs();
 
-	unsigned getCurrentTime();
-	TriState getValue();
 
-	// Function for parsing purposes.
-	void setInput(Gate *);
+	    void setOutputs(std::vector<Gate*>);
+
+	    unsigned getCurrentTime();
+	    TriState getValue();
+
+	    // Function for parsing purposes.
+	    void setInput(Gate *);
 };

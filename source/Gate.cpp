@@ -8,50 +8,66 @@ Gate::Gate(Vector *v, unsigned _delay) {
 	in[1] = nullptr;
 }
 
-void Gate::tick(bool force) {
+void Gate::tick() {
+    updated = false;
 	if(current_time == my_vector->getCurrentTime()) {
 		// We have already ticked this clock cycle. This means we do not need to update yet.
 		return;
 	}
 
-	if(!force && ((in[0] != nullptr && (in[0]->getCurrentTime() < my_vector->getCurrentTime() || in[0]->getCurrentTime() == UINT_MAX)) || (in[1] != nullptr && (in[1]->getCurrentTime() < my_vector->getCurrentTime() || in[1]->getCurrentTime() == UINT_MAX)))) {
-		// One of the inputs has not ticked this clock cycle. We can not reevaluate our current state unless all inputs are up to date with the current tick.
-		return;
-	}
+    #ifdef TERM_DEBUG
+        printf("Vector current time: %d\n", my_vector->getCurrentTime());
+        if(in[0] != nullptr && in[1] != nullptr) 
+            printf("Input current times: 1: %d; 2: %d\n", in[0]->getCurrentTime(), in[1]->getCurrentTime());
+    #endif
 
 	++current_time;
 
 	// @CONSIDER: Will we ever get more than one future_value with the same time?
+    // Get next value from future_values.
 	while(!future_values.empty() && future_values.front().time == current_time) {
 		value = future_values.front().value;
 		future_values.pop();
 	}
 
-	TriState new_value = recompute();
+	tickOutputs();
+}
 
-	// @CONSIDER: is it a bug if the circuit delay is used even for initial circuit state (ie a nand gate connected to two inputs that default to off?). Should we do a preprocess step where we calculate what the value should be?
+void Gate::update() {
+    if(updated) 
+        return;
+
+    TriState new_value = recompute();
+
 	if(new_value != value) {
 		// Delay then change to new_value.
 		if(delay != 0) {
-			future_values.push({current_time+delay, new_value});
+			future_values.push({current_time + delay, new_value});
 		}
 		else {
 			value = new_value;
 		}
 	}
 
-	tickOutputs();
-
 	// We still need more ticks to run through all the future values
 	if(!future_values.empty()) {
 		my_vector->continueRunning();
-	}
+	} 
+
+    updated = true;
+    updateOutputs();
 }
 
 void Gate::tickOutputs() {
 	for(Gate *gate : out) {
 		gate->tick();
 	}
+}
+
+void Gate::updateOutputs() {
+    for(Gate *gate : out) {
+        gate->update();
+    }
 }
 
 void Gate::setOutputs(std::vector<Gate *> _out) {
