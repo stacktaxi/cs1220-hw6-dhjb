@@ -150,6 +150,7 @@ void Vector::clock() {
 
 	while(continue_running || current_time <= max) {
 		tick();
+        update();
 	}
 
 	for(IO *in : inputs) {
