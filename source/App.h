@@ -1,3 +1,5 @@
+// wxWidgets Application classes.
+
 #pragma once
 
 #include <wx/wx.h>

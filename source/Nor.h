@@ -3,8 +3,7 @@
 #include "Gate.h"
 
 class Nor : public Gate {
-public:
-	using Gate::Gate;
-
-	virtual TriState recompute();
+    public:
+	    using Gate::Gate;
+	    virtual TriState recompute();
 };

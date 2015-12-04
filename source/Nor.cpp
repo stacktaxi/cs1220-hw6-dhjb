@@ -1,11 +1,7 @@
 #include "Nor.h"
 
 TriState Nor::recompute() {
-#ifdef TERM_DEBUG
-    printf("Nor # ");
-#endif 
-
-	if(in[0]->getValue() == 1 || in[1]->getValue() == 1) {
+    if(in[0]->getValue() == 1 || in[1]->getValue() == 1) {
 		return 0;
 	}
 	else if(in[0]->getValue() == X || in[1]->getValue() == X) {

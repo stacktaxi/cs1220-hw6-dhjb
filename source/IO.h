@@ -11,16 +11,19 @@ class IO : public Gate {
 	std::string name;
 	std::string out_dump;
 
-public:
-	IO(Vector *, unsigned, std::string);
+    public:
+	    IO(Vector*, unsigned, std::string);
 
-	virtual TriState recompute();
+	    virtual TriState recompute();
 
-	void dump();
+	    // Writes the history of the IO's value as a string to stdout.
+        void dump();
 
-	std::string getName();
-	void addValue(ValueAtTime);
+	    std::string getName();
 
-    // For scope
-    bool isRunning();
+        // Used when reading values from the vector
+	    void addValue(ValueAtTime);
+
+        // For Scope
+        bool isRunning();
 };

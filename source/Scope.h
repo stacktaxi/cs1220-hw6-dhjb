@@ -1,3 +1,5 @@
+// Reads from a source input or output and draws the values to a scope
+
 #pragma once 
 
 #include <string>

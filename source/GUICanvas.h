@@ -1,3 +1,5 @@
+// Abstract GUI element for drawing stuff
+
 #pragma once
 
 #include <wx/wx.h>
@@ -9,6 +11,5 @@ class GUICanvas: public wxPanel {
         GUICanvas(wxFrame *parent);
         
         void PaintEvent(wxPaintEvent &event);
-        void PaintNow();
-        virtual void Render(wxDC &dc);
+        virtual void Render(wxDC &dc) = 0;
 };

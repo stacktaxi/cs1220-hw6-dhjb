@@ -1,3 +1,5 @@
+// Top-level basic GUI class.
+
 #pragma once
 
 #include <cstdlib>
@@ -16,9 +18,10 @@ class ScopePane: public wxScrolledWindow {
     wxFlexGridSizer *scopeGrid; 
 
     public:
-        ScopePane(wxWindow *parent, Vector *vector);
+        ScopePane(wxWindow*, Vector*);
         ~ScopePane();
 
+        // Updates the timeline and scopes.
         void Refresh();
         void Tick();
 };
@@ -27,18 +30,14 @@ class MainWindow: public wxFrame {
     ScopePane *scopePane;
     Vector *vector;
 
-    void OnClose(wxCloseEvent &event);
-    void OnExit(wxCommandEvent &event);
-    //void OnResize(wxSizeEvent &event);
+    void OnClose(wxCloseEvent&);
+    void OnExit(wxCommandEvent&);
     DECLARE_EVENT_TABLE();
  
     public:
-        MainWindow(
-                Vector *vector,
-                const wxString& title, 
-                const wxPoint& pos, 
-                const wxSize& size);
+        MainWindow(Vector*, const wxString&, const wxPoint&, const wxSize&);
         ~MainWindow();
 
+        // Updates the scope pane.
         void Tick();
 };

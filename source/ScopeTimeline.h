@@ -1,3 +1,5 @@
+// Draws a timeline at the same rate as a scope
+
 #pragma once
 
 #include <wx/wx.h>

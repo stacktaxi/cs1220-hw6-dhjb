@@ -1,5 +1,8 @@
+// Contains all the circuit elements, along with an optional loop function with output.
+
 #pragma once
 
+#include <cctype>
 #include <fstream>
 #include <vector>
 #include <map>
@@ -8,7 +11,6 @@
 	#include "GUI.h"
 	#include "Scope.h"
 #endif
-
 
 class Gate;
 class IO;
@@ -20,7 +22,6 @@ struct Wire {
 
 const unsigned MAX_RUNNING_TIME = 100;
 
-// @CONSIDER: perhaps vector is not the best name for this considering its functionality is more to do with the circuit than anything. Maybe rename to circuit
 class Vector {
 	std::string name;
 
@@ -32,43 +33,30 @@ class Vector {
 
 	bool continue_running = true;
 
-public:
-	Vector(std::string, std::string);
+    public:
+	    Vector(std::string, std::string);
 
-    // Control functions
+        // Control functions
 
-    /*
-     * Tick the vector automatically, and dump the output to stdout.
-     */
-	void clock();
+        // Tick the vector automatically, and dump the output to stdout.
+	    void clock();
 
-    /*
-     * Tick the inputs and increase the time.
-     */
-	void tick();
+        // Tick each input.
+        void tick();
 
-    /*
-     * Update the inputs.
-     */
-    void update();
+        // Update each input.
+        void update();
+        
+        // Allow the vector to tick again.
+	    void continueRunning();
 
-    /*
-     * Allow the vector to tick again.
-     */
-	void continueRunning();
+	    void printTimeline();
+	    unsigned getCurrentTime();
+        bool isRunning();
+        std::string getName();
 
-    // Output and accessors
-	void printTimeline();
-	unsigned getCurrentTime();
-    bool isRunning();
-    std::string getName();
-
-    /*
-     * Connect scopes to vector inputs and outputs
-     */
-	#ifndef TERM_INAL
-	void connectScopes(wxFrame*, std::vector<Scope*> &);
-    #endif
-
-	void parse();
+#ifndef TERM_INAL
+        // Connect scopes to vector inputs and outputs.
+	    void connectScopes(wxFrame*, std::vector<Scope*> &);
+#endif
 };

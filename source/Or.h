@@ -3,8 +3,7 @@
 #include "Gate.h"
 
 class Or : public Gate {
-public:
-	using Gate::Gate;
-
-	virtual TriState recompute();
+    public:
+	    using Gate::Gate;
+        virtual TriState recompute();
 };

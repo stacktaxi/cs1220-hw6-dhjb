@@ -8,15 +8,14 @@
 #include "Xor.h"
 #include "Xnor.h"
 
-
-void tokenizeStr(std::string s, std::vector<std::string> &tokens, char delim) {
+// Splits a string into tokens by whitespace, and store the results in &tokens.
+void tokenizeStr(std::string s, std::vector<std::string> &tokens) {
     tokens.clear();
     std::string substring = "";
-    size_t pos = 0;
 
-    // Keep splitting off parts of string until delim is no longer found.
-    for(; pos < s.length(); pos++) {
-        if(s[pos] == ' ') {
+    // Keep splitting off parts of string until we find whitespace.
+    for(size_t pos = 0; pos < s.length(); pos++) {
+        if(isspace(s[pos])) {
             if(!substring.empty()) {
                 tokens.push_back(substring);
                 substring = "";
@@ -38,9 +37,11 @@ Vector::Vector(std::string circuit_path, std::string vector_path) {
 
     std::map<unsigned, Wire> wires;
 
+    // Add wires to the map and modify them as needed based on the contents
+    // of the circuit file.
     while(!infile.eof()) {
         getline(infile, line);
-        tokenizeStr(line, tokens, ' ');
+        tokenizeStr(line, tokens);
 
         if(tokens[0] == "CIRCUIT") {
             name = tokens[1];
@@ -107,6 +108,7 @@ Vector::Vector(std::string circuit_path, std::string vector_path) {
 
     infile.close();
 
+    // Use the wires to connect the gate inputs and outputs to each other.
     for(auto const &entry : wires) {
     	entry.second.in->setOutputs(entry.second.outs);
 
@@ -124,14 +126,18 @@ Vector::Vector(std::string circuit_path, std::string vector_path) {
         	continue;
         }
 
-        tokenizeStr(line, tokens, ' ');
+        tokenizeStr(line, tokens);
         if(tokens[0] != "INPUT") {
         	continue;
         }
         else {
         	for(IO *in : inputs) {
         		if(in->getName() == tokens[1]) {
-        			ValueAtTime t = {(unsigned) std::stoi(tokens[2]), tokens[3] == "X" ? X : std::stoi(tokens[3])};
+        			ValueAtTime t = {
+                        (unsigned) std::stoi(tokens[2]), 
+                        // Convert (0, 1, X) notation to TriState
+                        tokens[3] == "X" ? X : std::stoi(tokens[3])
+                    };
         			in->addValue(t);
         			break;
         		}
@@ -141,11 +147,7 @@ Vector::Vector(std::string circuit_path, std::string vector_path) {
 }
 
 void Vector::clock() {
-	// std::cout << "How many nanoseconds should be our max?\n";
-
-	// std::cin >> max;
-
-	while(continue_running && current_time <= MAX_RUNNING_TIME) {
+    while(continue_running && current_time <= MAX_RUNNING_TIME) {
 		tick();
         update();
 	}
@@ -166,19 +168,7 @@ void Vector::tick() {
 
 	for(IO *in : inputs) {
 		in->tick();
-	}
-
-    /*
-	for(Gate *gate : other) {
-		if(gate->getCurrentTime() < current_time || gate->getCurrentTime() == UINT_MAX) {
-			gate->tick();
-		}
-	}
-    */
-
-#ifdef TERM_DEBUG
-    printf("Tick finished, vector time %d\n", current_time);
-#endif 
+	} 
 
 	++current_time;
 }
@@ -187,12 +177,6 @@ void Vector::update() {
     for(IO *in : inputs) {
         in->update();
     }
-
-    /*
-    for(Gate *gate : other) {
-        gate->update();
-    }
-    */
 }
 
 void Vector::printTimeline() {
@@ -207,17 +191,29 @@ void Vector::printTimeline() {
 	std::cout << "\n";
 }
 
-void Vector::continueRunning() { continue_running = true; } 
+void Vector::continueRunning() { 
+    continue_running = true; 
+} 
 
-bool Vector::isRunning() { return continue_running; } 
-unsigned Vector::getCurrentTime() { return current_time; }
-std::string Vector::getName() { return name; }
+bool Vector::isRunning() { 
+    return continue_running; 
+}
+
+unsigned Vector::getCurrentTime() { 
+    return current_time; 
+}
+
+std::string Vector::getName() { 
+    return name; 
+}
 
 #ifndef TERM_INAL
 void Vector::connectScopes(wxFrame *win, std::vector<Scope*> &scopes) {
-	for(IO *input : inputs)
+	for(IO *input : inputs) {
 	    scopes.push_back(new Scope(win, input));
-	for(IO *output: outputs)
+    }
+	for(IO *output: outputs) {
 	    scopes.push_back(new Scope(win, output));
+    }
 }
 #endif

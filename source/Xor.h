@@ -3,8 +3,7 @@
 #include "Gate.h"
 
 class Xor : public Gate {
-public:
-	using Gate::Gate;
-
-	virtual TriState recompute();
+    public:
+	    using Gate::Gate;
+	    virtual TriState recompute();
 };
