@@ -180,14 +180,19 @@ void Vector::update() {
 }
 
 void Vector::printTimeline() {
-	for(unsigned i = 0; i < current_time; ++i) {
-		if(i % 5 == 0) {
-			std::cout << i;
-		}
-		else {
-			std::cout << " ";
-		}
-	}
+    unsigned i = 0;
+    while(i < current_time) {
+        if(i % 5 == 0) {
+            std::cout << i;
+            if(i < 10) {
+                std::cout << "    ";
+            }
+            else if(i < 100) {
+                std::cout << "   ";
+            }
+        }
+        i += 5;
+    }
 	std::cout << "\n";
 }
 
